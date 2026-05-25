@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InBody Progress Dashboard</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">IB</div>
+          <div>
+            <h1>InBody Progress</h1>
+            <p>09.02.2025 - 28.02.2026</p>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Разделы">
+          <a href="#overview" class="active">Обзор</a>
+          <a href="#trends">Тренды</a>
+          <a href="#composition">Состав тела</a>
+          <a href="#table">Таблица</a>
+        </nav>
+
+        <div class="metric-panel">
+          <div class="panel-title">Метрики графика</div>
+          <div id="metricToggles" class="metric-list"></div>
+        </div>
+
+        <div class="source-note">
+          <strong>Источник:</strong>
+          <span>8 PDF-отчетов InBody. Значения 28.02.2026 сверены по изображению из-за шумного OCR.</span>
+        </div>
+      </aside>
+
+      <main class="dashboard">
+        <header class="topbar" id="overview">
+          <div>
+            <p class="eyeline">Персональная динамика состава тела</p>
+            <h2>Прогресс по InBody</h2>
+          </div>
+          <div class="top-actions">
+            <label class="select-label">
+              Сравнить с
+              <select id="baselineSelect"></select>
+            </label>
+            <label class="select-label">
+              Показать
+              <select id="rangeSelect">
+                <option value="all">Все сканы</option>
+                <option value="2025">2025</option>
+                <option value="last4">Последние 4</option>
+              </select>
+            </label>
+          </div>
+        </header>
+
+        <section class="kpi-grid" id="kpiGrid" aria-label="Ключевые показатели"></section>
+
+        <section class="content-grid">
+          <article class="panel chart-panel" id="trends">
+            <div class="panel-head">
+              <div>
+                <h3>Тренды по сканам</h3>
+                <p>Линии нормализованы по собственному диапазону, точные значения видны при наведении.</p>
+              </div>
+              <div class="chart-mode">
+                <button class="mode-button active" id="normalizeButton" type="button">Динамика</button>
+                <button class="mode-button" id="absoluteButton" type="button">Фокус</button>
+                <select id="focusMetric"></select>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <svg id="trendChart" role="img" aria-label="График прогресса InBody"></svg>
+              <div id="chartTooltip" class="tooltip" hidden></div>
+            </div>
+          </article>
+
+          <aside class="panel insights-panel">
+            <div class="panel-head compact">
+              <h3>Что изменилось</h3>
+            </div>
+            <div id="insights" class="insight-list"></div>
+          </aside>
+        </section>
+
+        <section class="content-grid lower">
+          <article class="panel" id="composition">
+            <div class="panel-head">
+              <div>
+                <h3>Состав тела в выбранном скане</h3>
+                <p id="selectedScanCaption"></p>
+              </div>
+            </div>
+            <div class="composition-layout">
+              <div class="donut-wrap">
+                <svg id="compositionDonut" role="img" aria-label="Кольцевая диаграмма состава тела"></svg>
+              </div>
+              <div id="compositionBars" class="composition-bars"></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head compact">
+              <h3>Контроль веса</h3>
+            </div>
+            <div id="controlPanel" class="control-grid"></div>
+          </article>
+        </section>
+
+        <section class="panel history-panel">
+          <div class="panel-head">
+            <div>
+              <h3>История сканов</h3>
+              <p>Выберите дату, чтобы обновить состав тела и карточку контроля веса.</p>
+            </div>
+          </div>
+          <div id="scanHistory" class="scan-history"></div>
+        </section>
+
+        <section class="panel table-panel" id="table">
+          <div class="panel-head">
+            <div>
+              <h3>Детальная таблица</h3>
+              <p>Изменение считается относительно выбранной базовой даты.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead id="detailHead"></thead>
+              <tbody id="detailBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
