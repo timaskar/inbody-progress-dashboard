@@ -7,6 +7,7 @@ const scans = [
   { date: "2025-11-26", label: "26 ноя", source: "Adobe Scan Nov 26, 2025.pdf", height: 178, weight: 71.5, muscle: 33.1, fatMass: 12.5, fatPct: 17.5, visceral: 5, score: 78 },
   { date: "2025-12-03", label: "03 дек", source: "Adobe Scan Dec 3, 2025.pdf", height: 175, weight: 71.6, muscle: 32.3, fatMass: 13.9, fatPct: 19.4, visceral: 6, score: 77 },
   { date: "2026-02-28", label: "28 фев", source: "Adobe Scan Feb 28, 2026.pdf", height: 175, weight: 71.6, muscle: 32.5, fatMass: 13.8, fatPct: 19.3, visceral: 6, score: 77 },
+  { date: "2026-05-25", label: "25 май", source: "260525_inbody_result.pdf", height: 175, weight: 72.3, muscle: 33.1, fatMass: 13.6, fatPct: 18.8, visceral: 5, score: null },
 ];
 
 const state = {
@@ -32,13 +33,14 @@ const questions = {
 };
 
 const el = (id) => document.getElementById(id);
-const fmt = (value, precision = 1) => Number(value).toFixed(precision);
-const signed = (value, precision = 1) => `${value > 0 ? "+" : ""}${fmt(value, precision)}`;
+const fmt = (value, precision = 1) => value == null || Number.isNaN(Number(value)) ? "-" : Number(value).toFixed(precision);
+const signed = (value, precision = 1) => value == null || Number.isNaN(Number(value)) ? "-" : `${value > 0 ? "+" : ""}${fmt(value, precision)}`;
 const metric = (key) => metrics.find((item) => item.key === key);
 const normalizedHeight = () => state.heightMode === "reported" ? null : Number(state.heightMode);
 const labelWithYear = (scan) => `${scan.label} ${scan.date.slice(0, 4)}`;
 
 function value(scan, key) {
+  if (scan[key] == null && key !== "bmi") return null;
   if (key !== "bmi") return scan[key];
   const heightCm = normalizedHeight() || scan.height;
   const heightM = heightCm / 100;
@@ -147,7 +149,7 @@ function renderChart() {
 
   const x = (index) => margin.left + (index / (scans.length - 1)) * innerW;
   const yNorm = (key, current) => {
-    const values = scans.map((scan) => value(scan, key));
+    const values = scans.map((scan) => value(scan, key)).filter((item) => item != null);
     const min = Math.min(...values);
     const max = Math.max(...values);
     const span = max - min || 1;
@@ -161,15 +163,26 @@ function renderChart() {
       svg.insertAdjacentHTML("beforeend", `<line x1="${tx}" y1="${margin.top}" x2="${tx}" y2="${margin.top + innerH}" stroke="#d79200" stroke-width="1.5" stroke-dasharray="5 5" />`);
       svg.insertAdjacentHTML("beforeend", `<text class="chart-warning" x="${tx}" y="${margin.top - 8}" text-anchor="middle">${scan.height} см</text>`);
     }
-    svg.insertAdjacentHTML("beforeend", `<text class="chart-label" x="${tx}" y="${height - 16}" text-anchor="middle">${scan.label}</text>`);
+    const showLabel = width >= 560 || index % 2 === 0 || outlier || index === scans.length - 1;
+    if (showLabel) {
+      svg.insertAdjacentHTML("beforeend", `<text class="chart-label" x="${tx}" y="${height - 16}" text-anchor="middle">${scan.label}</text>`);
+    }
   });
 
   keys.forEach((key) => {
     const item = metric(key);
-    const points = scans.map((scan, index) => `${x(index)},${yNorm(key, value(scan, key))}`).join(" ");
-    svg.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${item.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`);
+    const points = scans.map((scan, index) => {
+      const current = value(scan, key);
+      return current == null ? null : `${x(index)},${yNorm(key, current)}`;
+    }).filter(Boolean).join(" ");
+    if (points) {
+      svg.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${item.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`);
+    }
     scans.forEach((scan, index) => {
-      svg.insertAdjacentHTML("beforeend", `<circle cx="${x(index)}" cy="${yNorm(key, value(scan, key))}" r="4" fill="${item.color}" stroke="#fff" stroke-width="2" />`);
+      const current = value(scan, key);
+      if (current != null) {
+        svg.insertAdjacentHTML("beforeend", `<circle cx="${x(index)}" cy="${yNorm(key, current)}" r="4" fill="${item.color}" stroke="#fff" stroke-width="2" />`);
+      }
     });
   });
 
@@ -220,7 +233,8 @@ function renderDataTable() {
       <td>${scan.height} см</td>
       ${keys.map((key) => {
         const item = metric(key);
-        return `<td>${fmt(value(scan, key), item.precision)} ${item.unit}</td>`;
+        const current = value(scan, key);
+        return `<td>${fmt(current, item.precision)} ${current == null ? "" : item.unit}</td>`;
       }).join("")}
     </tr>
   `).join("");
