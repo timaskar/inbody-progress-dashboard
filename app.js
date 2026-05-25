@@ -10,6 +10,24 @@ const scans = [
   { date: "2026-05-25", label: "25 май", source: "260525_inbody_result.pdf", height: 175, weight: 72.3, muscle: 33.1, fatMass: 13.6, fatPct: 18.8, visceral: 5, score: null },
 ];
 
+const tapeMeasure = {
+  date: "2026-01-10",
+  label: "10 янв 2026",
+  chest: 100,
+  waist: 73,
+  hips: 96,
+  shoulders: 117,
+  neck: 36.5,
+  rightThigh: 53,
+  leftThigh: 51,
+  rightArm: 36,
+  leftArm: 34.5,
+  rightForearm: 27.5,
+  leftForearm: 27,
+  rightCalf: 36.5,
+  leftCalf: 35.5,
+};
+
 const state = {
   baseIndex: 0,
   heightMode: "176",
@@ -39,6 +57,7 @@ const metric = (key) => metrics.find((item) => item.key === key);
 const normalizedHeight = () => state.heightMode === "reported" ? null : Number(state.heightMode);
 const labelWithYear = (scan) => `${scan.label} ${scan.date.slice(0, 4)}`;
 const daysBetween = (a, b) => Math.max(1, (new Date(b.date) - new Date(a.date)) / 86400000);
+const ratio = (a, b) => a / b;
 
 function value(scan, key) {
   if (scan[key] == null && key !== "bmi") return null;
@@ -202,6 +221,58 @@ function renderPhases() {
   `).join("");
 }
 
+function renderTapeMeasure() {
+  const waistToHip = ratio(tapeMeasure.waist, tapeMeasure.hips);
+  const shoulderToWaist = ratio(tapeMeasure.shoulders, tapeMeasure.waist);
+  const chestToWaist = ratio(tapeMeasure.chest, tapeMeasure.waist);
+  const pairs = [
+    ["Бедро", tapeMeasure.rightThigh, tapeMeasure.leftThigh],
+    ["Рука", tapeMeasure.rightArm, tapeMeasure.leftArm],
+    ["Предплечье", tapeMeasure.rightForearm, tapeMeasure.leftForearm],
+    ["Голень", tapeMeasure.rightCalf, tapeMeasure.leftCalf],
+  ];
+  const maxAsymmetry = Math.max(...pairs.map(([, right, left]) => Math.abs(right - left)));
+
+  el("tapeSummary").innerHTML = `
+    <article class="tape-card">
+      <span>Талия</span>
+      <strong>${fmt(tapeMeasure.waist, 0)} см</strong>
+      <p>Главная окружность для отслеживания жира отдельно от веса.</p>
+    </article>
+    <article class="tape-card">
+      <span>Плечи / талия</span>
+      <strong>${fmt(shoulderToWaist, 2)}</strong>
+      <p>117 см / 73 см. Чем выше, тем сильнее V-силуэт.</p>
+    </article>
+    <article class="tape-card">
+      <span>Талия / бедра</span>
+      <strong>${fmt(waistToHip, 2)}</strong>
+      <p>73 см / 96 см. Удобно сверять с визуальной сухостью.</p>
+    </article>
+    <article class="tape-card">
+      <span>Макс. асимметрия</span>
+      <strong>${fmt(maxAsymmetry, 1)} см</strong>
+      <p>Самая большая разница лево/право сейчас в бедрах.</p>
+    </article>
+  `;
+
+  el("tapeTable").innerHTML = `
+    <table>
+      <thead><tr><th>Зона</th><th>Значение</th><th>Комментарий</th></tr></thead>
+      <tbody>
+        <tr><td>Грудь</td><td>${fmt(tapeMeasure.chest, 0)} см</td><td>Грудь / талия: ${fmt(chestToWaist, 2)}</td></tr>
+        <tr><td>Плечи</td><td>${fmt(tapeMeasure.shoulders, 0)} см</td><td>Плечи / талия: ${fmt(shoulderToWaist, 2)}</td></tr>
+        <tr><td>Бедра</td><td>${fmt(tapeMeasure.hips, 0)} см</td><td>Талия / бедра: ${fmt(waistToHip, 2)}</td></tr>
+        <tr><td>Шея</td><td>${fmt(tapeMeasure.neck, 1)} см</td><td>Контрольный замер формы верха</td></tr>
+        ${pairs.map(([label, right, left]) => {
+          const delta = right - left;
+          return `<tr><td>${label}</td><td>П ${fmt(right, 1)} / Л ${fmt(left, 1)} см</td><td>${Math.abs(delta) < 0.5 ? "почти симметрично" : `разница ${fmt(Math.abs(delta), 1)} см, ${delta > 0 ? "правая больше" : "левая больше"}`}</td></tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
 function renderChart() {
   document.querySelectorAll("[data-focus]").forEach((button) => {
     button.classList.toggle("active", button.dataset.focus === state.focus);
@@ -318,6 +389,7 @@ function render() {
   renderSummary();
   renderPhases();
   renderKpis();
+  renderTapeMeasure();
   renderChart();
   renderNoise();
   renderDataTable();

@@ -147,6 +147,37 @@ select {
   color: var(--teal);
 }
 
+.tape-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+}
+
+.tape-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.tape-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.tape-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.tape-card p {
+  margin-top: 9px;
+}
+
 .answer-card,
 .panel,
 .kpi-grid {
@@ -427,6 +458,11 @@ th {
     padding: 14px;
   }
 
+  .tape-summary {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px;
+  }
+
   .answer-card {
     min-height: 126px;
   }
@@ -484,6 +520,10 @@ th {
 
 @media (max-width: 420px) {
   .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .tape-summary {
     grid-template-columns: 1fr;
   }
 }
