@@ -109,6 +109,44 @@ select {
   gap: 12px;
 }
 
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+}
+
+.phase-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.phase-card span,
+.phase-card small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.phase-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.phase-card p {
+  margin-top: 9px;
+}
+
+.phase-card small {
+  display: block;
+  margin-top: 9px;
+  color: var(--teal);
+}
+
 .answer-card,
 .panel,
 .kpi-grid {
@@ -382,6 +420,11 @@ th {
 
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .phase-grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
   }
 
   .answer-card {

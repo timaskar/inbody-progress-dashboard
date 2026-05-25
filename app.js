@@ -69,6 +69,18 @@ function benchmarkRecomp(monthlyIndex, muscleDelta, fatDelta) {
       text: "Изменения меньше практического порога BIA. Нужны еще 1-2 замера в тех же условиях.",
     };
   }
+  if (muscleDelta > 0.5 && fatDelta > 0.5) {
+    return {
+      title: "скорее набор, не рекомп",
+      text: "Мышцы растут, но жир тоже растет. Это может быть нормальным массонабором, но не чистой рекомпозицией.",
+    };
+  }
+  if (monthlyIndex < -0.05) {
+    return {
+      title: "рекомп не подтвержден",
+      text: "По индексу направление слабое или обратное: часть улучшения съедается ростом жира.",
+    };
+  }
   if (monthlyIndex < 0.15) {
     return {
       title: "медленно, но в правильную сторону",
@@ -85,6 +97,18 @@ function benchmarkRecomp(monthlyIndex, muscleDelta, fatDelta) {
     title: "очень быстрый темп",
     text: "Стоит перепроверять условия замера: вода, соль, тренировка накануне и введенный рост.",
   };
+}
+
+function segmentStats(startIndex, endIndex) {
+  const start = scans[startIndex];
+  const end = scans[endIndex];
+  const muscleDelta = value(end, "muscle") - value(start, "muscle");
+  const fatDelta = value(end, "fatMass") - value(start, "fatMass");
+  const weightDelta = value(end, "weight") - value(start, "weight");
+  const recompIndex = muscleDelta - fatDelta;
+  const months = daysBetween(start, end) / 30.44;
+  const monthlyIndex = recompIndex / months;
+  return { start, end, muscleDelta, fatDelta, weightDelta, recompIndex, monthlyIndex, benchmark: benchmarkRecomp(monthlyIndex, muscleDelta, fatDelta) };
 }
 
 function renderControls() {
@@ -157,6 +181,25 @@ function renderKpis() {
       </article>
     `;
   }).join("");
+}
+
+function renderPhases() {
+  const preGym = segmentStats(0, 4);
+  const gym = segmentStats(4, scans.length - 1);
+  const all = segmentStats(0, scans.length - 1);
+  const phases = [
+    ["До регулярного зала", preGym],
+    ["С сентября 2025", gym],
+    ["Весь период", all],
+  ];
+  el("phaseGrid").innerHTML = phases.map(([title, stats]) => `
+    <article class="phase-card">
+      <span>${title}</span>
+      <strong>${signed(stats.recompIndex)} кг</strong>
+      <p>${signed(stats.monthlyIndex, 2)} кг/мес · мышцы ${signed(stats.muscleDelta)} кг · жир ${signed(stats.fatDelta)} кг · вес ${signed(stats.weightDelta)} кг</p>
+      <small>${stats.benchmark.title}</small>
+    </article>
+  `).join("");
 }
 
 function renderChart() {
@@ -273,6 +316,7 @@ function renderDataTable() {
 
 function render() {
   renderSummary();
+  renderPhases();
   renderKpis();
   renderChart();
   renderNoise();
