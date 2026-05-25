@@ -38,6 +38,7 @@ const signed = (value, precision = 1) => value == null || Number.isNaN(Number(va
 const metric = (key) => metrics.find((item) => item.key === key);
 const normalizedHeight = () => state.heightMode === "reported" ? null : Number(state.heightMode);
 const labelWithYear = (scan) => `${scan.label} ${scan.date.slice(0, 4)}`;
+const daysBetween = (a, b) => Math.max(1, (new Date(b.date) - new Date(a.date)) / 86400000);
 
 function value(scan, key) {
   if (scan[key] == null && key !== "bmi") return null;
@@ -58,6 +59,32 @@ function statusClass(key, delta) {
   if (direction === "up") return delta > 0 ? "good" : "bad";
   if (direction === "down") return delta < 0 ? "good" : "bad";
   return "neutral";
+}
+
+function benchmarkRecomp(monthlyIndex, muscleDelta, fatDelta) {
+  const signal = Math.abs(muscleDelta) >= 0.5 || Math.abs(fatDelta) >= 0.7;
+  if (!signal) {
+    return {
+      title: "пока похоже на шум",
+      text: "Изменения меньше практического порога BIA. Нужны еще 1-2 замера в тех же условиях.",
+    };
+  }
+  if (monthlyIndex < 0.15) {
+    return {
+      title: "медленно, но в правильную сторону",
+      text: "Сигнал уже выше шума, но темп рекомпозиции спокойный.",
+    };
+  }
+  if (monthlyIndex < 0.35) {
+    return {
+      title: "хороший устойчивый рекомп",
+      text: "Темп выглядит реалистично для долгого периода без агрессивной сушки.",
+    };
+  }
+  return {
+    title: "очень быстрый темп",
+    text: "Стоит перепроверять условия замера: вода, соль, тренировка накануне и введенный рост.",
+  };
 }
 
 function renderControls() {
@@ -89,6 +116,10 @@ function renderSummary() {
   const fatDelta = value(last, "fatMass") - value(base, "fatMass");
   const fatPctDelta = value(last, "fatPct") - value(base, "fatPct");
   const weightDelta = value(last, "weight") - value(base, "weight");
+  const months = daysBetween(base, last) / 30.44;
+  const recompIndex = muscleDelta - fatDelta;
+  const monthlyIndex = recompIndex / months;
+  const benchmark = benchmarkRecomp(monthlyIndex, muscleDelta, fatDelta);
   const verdict = muscleDelta > 0 && fatDelta < 0 ? "Да, состав тела стал лучше" : "Тренд смешанный";
 
   el("trendSummary").innerHTML = `
@@ -98,9 +129,9 @@ function renderSummary() {
       <p>От ${labelWithYear(base)} до ${labelWithYear(last)}: мышцы ${signed(muscleDelta)} кг, жир ${signed(fatDelta)} кг, вес ${signed(weightDelta)} кг.</p>
     </article>
     <article class="answer-card">
-      <span>Что важнее веса?</span>
-      <strong>${signed(muscleDelta - fatDelta)} кг</strong>
-      <p>Разница “мышцы минус жир”. Чем выше, тем лучше направление рекомпозиции.</p>
+      <span>Индекс рекомпозиции</span>
+      <strong>${signed(recompIndex)} кг</strong>
+      <p>${benchmark.title}: ${signed(monthlyIndex, 2)} кг/мес. ${benchmark.text}</p>
     </article>
     <article class="answer-card">
       <span>Процент жира</span>
