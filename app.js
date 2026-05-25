@@ -1,606 +1,238 @@
 const scans = [
-  {
-    date: "2025-02-09",
-    label: "09 фев 2025",
-    source: "InBody.pdf",
-    height: 176,
-    weight: 70.5,
-    water: 41.4,
-    protein: 11.0,
-    minerals: 3.77,
-    bodyFatMass: 14.3,
-    skeletalMuscleMass: 31.4,
-    bmi: 22.8,
-    bodyFatPct: 20.3,
-    score: 74,
-    idealWeight: 68.1,
-    weightControl: -2.4,
-    fatControl: -4.1,
-    muscleControl: 1.7,
-    whr: 0.88,
-    visceralFatLevel: 6,
-    fatFreeMass: 56.2,
-    bmr: 1584,
-    recommendedCalories: 2752,
-  },
-  {
-    date: "2025-02-20",
-    label: "20 фев 2025",
-    source: "Adobe Scan Feb 20, 2025.pdf",
-    height: 176,
-    weight: 70.3,
-    water: 40.9,
-    protein: 10.9,
-    minerals: 3.87,
-    bodyFatMass: 14.6,
-    skeletalMuscleMass: 31.0,
-    bmi: 22.7,
-    bodyFatPct: 20.8,
-    score: 73,
-    idealWeight: 68.2,
-    weightControl: -2.1,
-    fatControl: -4.4,
-    muscleControl: 2.3,
-    whr: 0.85,
-    visceralFatLevel: 6,
-    fatFreeMass: 55.7,
-    bmr: 1572,
-    recommendedCalories: 2748,
-  },
-  {
-    date: "2025-03-18",
-    label: "18 мар 2025",
-    source: "Adobe Scan Mar 18, 2025.pdf",
-    height: 176,
-    weight: 70.3,
-    water: 41.4,
-    protein: 11.1,
-    minerals: 3.78,
-    bodyFatMass: 14.0,
-    skeletalMuscleMass: 31.6,
-    bmi: 22.7,
-    bodyFatPct: 19.9,
-    score: 75,
-    idealWeight: 68.1,
-    weightControl: -2.2,
-    fatControl: -3.8,
-    muscleControl: 1.6,
-    whr: 0.87,
-    visceralFatLevel: 6,
-    fatFreeMass: 56.3,
-    bmr: 1586,
-    recommendedCalories: 2748,
-  },
-  {
-    date: "2025-04-11",
-    label: "11 апр 2025",
-    source: "Adobe Scan Apr 11, 2025.pdf",
-    height: 176,
-    weight: 70.5,
-    water: 41.1,
-    protein: 11.0,
-    minerals: 3.77,
-    bodyFatMass: 14.6,
-    skeletalMuscleMass: 31.3,
-    bmi: 22.8,
-    bodyFatPct: 20.7,
-    score: 74,
-    idealWeight: 68.1,
-    weightControl: -2.4,
-    fatControl: -4.4,
-    muscleControl: 2.0,
-    whr: 0.89,
-    visceralFatLevel: 6,
-    fatFreeMass: 55.9,
-    bmr: 1578,
-    recommendedCalories: 2752,
-  },
-  {
-    date: "2025-09-07",
-    label: "07 сен 2025",
-    source: "Adobe Scan Sep 7, 2025.pdf",
-    height: 177,
-    weight: 69.9,
-    water: 42.0,
-    protein: 11.4,
-    minerals: 3.89,
-    bodyFatMass: 12.6,
-    skeletalMuscleMass: 32.2,
-    bmi: 22.3,
-    bodyFatPct: 18.1,
-    score: 76,
-    idealWeight: 68.9,
-    weightControl: -1.0,
-    fatControl: -2.3,
-    muscleControl: 1.3,
-    whr: 0.85,
-    visceralFatLevel: 5,
-    fatFreeMass: 57.3,
-    bmr: 1607,
-    recommendedCalories: null,
-  },
-  {
-    date: "2025-11-26",
-    label: "26 ноя 2025",
-    source: "Adobe Scan Nov 26, 2025.pdf",
-    height: 178,
-    weight: 71.5,
-    water: 43.4,
-    protein: 11.6,
-    minerals: 4.0,
-    bodyFatMass: 12.5,
-    skeletalMuscleMass: 33.1,
-    bmi: 22.6,
-    bodyFatPct: 17.5,
-    score: 78,
-    idealWeight: 69.7,
-    weightControl: -1.8,
-    fatControl: -2.1,
-    muscleControl: 0.3,
-    whr: 0.84,
-    visceralFatLevel: 5,
-    fatFreeMass: 59.0,
-    bmr: 1644,
-    recommendedCalories: 2772,
-  },
-  {
-    date: "2025-12-03",
-    label: "03 дек 2025",
-    source: "Adobe Scan Dec 3, 2025.pdf",
-    height: 175,
-    weight: 71.6,
-    water: 42.4,
-    protein: 11.4,
-    minerals: 3.9,
-    bodyFatMass: 13.9,
-    skeletalMuscleMass: 32.3,
-    bmi: 23.4,
-    bodyFatPct: 19.4,
-    score: 77,
-    idealWeight: 67.9,
-    weightControl: -3.7,
-    fatControl: -3.7,
-    muscleControl: 0.0,
-    whr: 0.86,
-    visceralFatLevel: 6,
-    fatFreeMass: 57.7,
-    bmr: 1616,
-    recommendedCalories: 2755,
-  },
-  {
-    date: "2026-02-28",
-    label: "28 фев 2026",
-    source: "Adobe Scan Feb 28, 2026.pdf",
-    height: 175,
-    weight: 71.6,
-    water: 42.5,
-    protein: 11.4,
-    minerals: 3.89,
-    bodyFatMass: 13.8,
-    skeletalMuscleMass: 32.5,
-    bmi: 23.4,
-    bodyFatPct: 19.3,
-    score: 77,
-    idealWeight: 68.0,
-    weightControl: -3.6,
-    fatControl: -3.6,
-    muscleControl: 0.0,
-    whr: 0.87,
-    visceralFatLevel: 6,
-    fatFreeMass: 57.8,
-    bmr: 1619,
-    recommendedCalories: 2756,
-  },
-];
-
-const metrics = [
-  { key: "weight", label: "Вес", unit: "кг", color: "#087f8c", direction: "neutral", precision: 1 },
-  { key: "skeletalMuscleMass", label: "Скелетная мышечная масса", unit: "кг", color: "#277da1", direction: "up", precision: 1 },
-  { key: "bodyFatMass", label: "Жировая масса", unit: "кг", color: "#f15b4f", direction: "down", precision: 1 },
-  { key: "bodyFatPct", label: "Процент жира", unit: "%", color: "#ff7a59", direction: "down", precision: 1 },
-  { key: "bmi", label: "ИМТ", unit: "кг/м²", color: "#7057d2", direction: "neutral", precision: 1 },
-  { key: "visceralFatLevel", label: "Висцеральный жир", unit: "ур.", color: "#d79200", direction: "down", precision: 0 },
-  { key: "score", label: "Оценка InBody", unit: "балл", color: "#0b6e99", direction: "up", precision: 0 },
-];
-
-const tableMetrics = [
-  ...metrics,
-  { key: "water", label: "Вода", unit: "л", precision: 1 },
-  { key: "protein", label: "Протеин", unit: "кг", precision: 1 },
-  { key: "minerals", label: "Минералы", unit: "кг", precision: 2 },
-  { key: "fatFreeMass", label: "Безжировая масса", unit: "кг", precision: 1 },
-  { key: "bmr", label: "Базовый обмен", unit: "ккал", precision: 0 },
-  { key: "whr", label: "Талия/бедра", unit: "", precision: 2 },
-];
-
-const composition = [
-  { key: "water", label: "Вода", color: "#59bfc2" },
-  { key: "protein", label: "Протеин", color: "#087f8c" },
-  { key: "minerals", label: "Минералы", color: "#7057d2" },
-  { key: "bodyFatMass", label: "Жировая масса", color: "#f15b4f" },
+  { date: "2025-02-09", label: "09 фев", source: "InBody.pdf", height: 176, weight: 70.5, muscle: 31.4, fatMass: 14.3, fatPct: 20.3, visceral: 6, score: 74 },
+  { date: "2025-02-20", label: "20 фев", source: "Adobe Scan Feb 20, 2025.pdf", height: 176, weight: 70.3, muscle: 31.0, fatMass: 14.6, fatPct: 20.8, visceral: 6, score: 73 },
+  { date: "2025-03-18", label: "18 мар", source: "Adobe Scan Mar 18, 2025.pdf", height: 176, weight: 70.3, muscle: 31.6, fatMass: 14.0, fatPct: 19.9, visceral: 6, score: 75 },
+  { date: "2025-04-11", label: "11 апр", source: "Adobe Scan Apr 11, 2025.pdf", height: 176, weight: 70.5, muscle: 31.3, fatMass: 14.6, fatPct: 20.7, visceral: 6, score: 74 },
+  { date: "2025-09-07", label: "07 сен", source: "Adobe Scan Sep 7, 2025.pdf", height: 177, weight: 69.9, muscle: 32.2, fatMass: 12.6, fatPct: 18.1, visceral: 5, score: 76 },
+  { date: "2025-11-26", label: "26 ноя", source: "Adobe Scan Nov 26, 2025.pdf", height: 178, weight: 71.5, muscle: 33.1, fatMass: 12.5, fatPct: 17.5, visceral: 5, score: 78 },
+  { date: "2025-12-03", label: "03 дек", source: "Adobe Scan Dec 3, 2025.pdf", height: 175, weight: 71.6, muscle: 32.3, fatMass: 13.9, fatPct: 19.4, visceral: 6, score: 77 },
+  { date: "2026-02-28", label: "28 фев", source: "Adobe Scan Feb 28, 2026.pdf", height: 175, weight: 71.6, muscle: 32.5, fatMass: 13.8, fatPct: 19.3, visceral: 6, score: 77 },
 ];
 
 const state = {
-  selectedMetrics: new Set(["weight", "skeletalMuscleMass", "bodyFatMass", "bodyFatPct", "score"]),
-  chartMode: "normalized",
-  range: "all",
-  selectedIndex: scans.length - 1,
-  baselineIndex: 0,
+  baseIndex: 0,
+  heightMode: "176",
+  focus: "composition",
+};
+
+const metrics = [
+  { key: "muscle", label: "Мышцы", unit: "кг", color: "#087f8c", good: "up", precision: 1 },
+  { key: "fatMass", label: "Жир", unit: "кг", color: "#f15b4f", good: "down", precision: 1 },
+  { key: "fatPct", label: "% жира", unit: "%", color: "#ff7a59", good: "down", precision: 1 },
+  { key: "weight", label: "Вес", unit: "кг", color: "#277da1", good: "neutral", precision: 1 },
+  { key: "bmi", label: "BMI", unit: "", color: "#7057d2", good: "neutral", precision: 1 },
+  { key: "visceral", label: "Висц. жир", unit: "ур.", color: "#d79200", good: "down", precision: 0 },
+  { key: "score", label: "InBody", unit: "балл", color: "#0b6e99", good: "up", precision: 0 },
+];
+
+const questions = {
+  composition: ["muscle", "fatMass", "fatPct"],
+  weight: ["weight", "bmi"],
+  score: ["score", "visceral"],
 };
 
 const el = (id) => document.getElementById(id);
-const fmt = (value, precision = 1) => value == null ? "-" : Number(value).toFixed(precision);
+const fmt = (value, precision = 1) => Number(value).toFixed(precision);
 const signed = (value, precision = 1) => `${value > 0 ? "+" : ""}${fmt(value, precision)}`;
-const pct = (value) => `${value > 0 ? "+" : ""}${fmt(value, 1)}%`;
-const byKey = (key) => metrics.find((metric) => metric.key === key) || tableMetrics.find((metric) => metric.key === key);
+const metric = (key) => metrics.find((item) => item.key === key);
+const normalizedHeight = () => state.heightMode === "reported" ? null : Number(state.heightMode);
+const labelWithYear = (scan) => `${scan.label} ${scan.date.slice(0, 4)}`;
 
-function filteredScans() {
-  if (state.range === "2025") return scans.filter((scan) => scan.date.startsWith("2025"));
-  if (state.range === "last4") return scans.slice(-4);
-  return scans;
+function value(scan, key) {
+  if (key !== "bmi") return scan[key];
+  const heightCm = normalizedHeight() || scan.height;
+  const heightM = heightCm / 100;
+  return scan.weight / (heightM * heightM);
 }
 
-function classifyDelta(metric, delta) {
+function valueLabel(key) {
+  if (key !== "bmi") return metric(key).label;
+  return normalizedHeight() ? `BMI @ ${normalizedHeight()} см` : "BMI из отчета";
+}
+
+function statusClass(key, delta) {
+  const direction = metric(key).good;
   if (Math.abs(delta) < 0.05) return "neutral";
-  if (metric.direction === "up") return delta > 0 ? "good" : "bad";
-  if (metric.direction === "down") return delta < 0 ? "good" : "bad";
+  if (direction === "up") return delta > 0 ? "good" : "bad";
+  if (direction === "down") return delta < 0 ? "good" : "bad";
   return "neutral";
 }
 
 function renderControls() {
-  const toggles = metrics.map((metric) => {
-    const checked = state.selectedMetrics.has(metric.key) ? "checked" : "";
-    return `
-      <label class="metric-toggle">
-        <span class="metric-dot" style="background:${metric.color}"></span>
-        <span>${metric.label}</span>
-        <input type="checkbox" value="${metric.key}" ${checked} />
-      </label>
-    `;
-  }).join("");
-  el("metricToggles").innerHTML = toggles;
-  el("metricToggles").querySelectorAll("input").forEach((input) => {
-    input.addEventListener("change", () => {
-      if (input.checked) state.selectedMetrics.add(input.value);
-      else state.selectedMetrics.delete(input.value);
-      renderChart();
-    });
-  });
-
   el("baselineSelect").innerHTML = scans.map((scan, index) => (
-    `<option value="${index}" ${index === state.baselineIndex ? "selected" : ""}>${scan.label}</option>`
+    `<option value="${index}" ${index === state.baseIndex ? "selected" : ""}>${labelWithYear(scan)}</option>`
   )).join("");
   el("baselineSelect").addEventListener("change", (event) => {
-    state.baselineIndex = Number(event.target.value);
-    renderAll();
+    state.baseIndex = Number(event.target.value);
+    render();
   });
 
-  el("rangeSelect").addEventListener("change", (event) => {
-    state.range = event.target.value;
-    renderChart();
+  el("heightMode").addEventListener("change", (event) => {
+    state.heightMode = event.target.value;
+    render();
   });
 
-  el("focusMetric").innerHTML = metrics.map((metric) => (
-    `<option value="${metric.key}">${metric.label}</option>`
-  )).join("");
-
-  el("normalizeButton").addEventListener("click", () => {
-    state.chartMode = "normalized";
-    el("normalizeButton").classList.add("active");
-    el("absoluteButton").classList.remove("active");
-    renderChart();
-  });
-
-  el("absoluteButton").addEventListener("click", () => {
-    state.chartMode = "absolute";
-    el("absoluteButton").classList.add("active");
-    el("normalizeButton").classList.remove("active");
-    renderChart();
-  });
-
-  el("focusMetric").addEventListener("change", () => {
-    state.chartMode = "absolute";
-    el("absoluteButton").classList.add("active");
-    el("normalizeButton").classList.remove("active");
-    renderChart();
+  document.querySelectorAll("[data-focus]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.focus = button.dataset.focus;
+      render();
+    });
   });
 }
 
-function renderKpis() {
-  const latest = scans.at(-1);
-  const base = scans[state.baselineIndex];
-  const kpis = metrics.map((metric) => {
-    const delta = latest[metric.key] - base[metric.key];
-    const rel = base[metric.key] ? (delta / base[metric.key]) * 100 : 0;
-    const cls = classifyDelta(metric, delta);
-    return `
-      <article class="kpi-card">
-        <div class="kpi-label">
-          <span class="metric-dot" style="background:${metric.color}"></span>
-          ${metric.label}
-        </div>
-        <div class="kpi-value">${fmt(latest[metric.key], metric.precision)} <span class="kpi-unit">${metric.unit}</span></div>
-        <div class="kpi-change ${cls}">${signed(delta, metric.precision)} ${metric.unit} (${pct(rel)})</div>
-        ${sparkline(metric.key, metric.color)}
-      </article>
-    `;
-  }).join("");
-  el("kpiGrid").innerHTML = kpis;
-}
+function renderSummary() {
+  const base = scans[state.baseIndex];
+  const last = scans.at(-1);
+  const muscleDelta = value(last, "muscle") - value(base, "muscle");
+  const fatDelta = value(last, "fatMass") - value(base, "fatMass");
+  const fatPctDelta = value(last, "fatPct") - value(base, "fatPct");
+  const weightDelta = value(last, "weight") - value(base, "weight");
+  const verdict = muscleDelta > 0 && fatDelta < 0 ? "Да, состав тела стал лучше" : "Тренд смешанный";
 
-function sparkline(key, color) {
-  const width = 170;
-  const height = 34;
-  const values = scans.map((scan) => scan[key]);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = max - min || 1;
-  const points = values.map((value, index) => {
-    const x = (index / (values.length - 1)) * width;
-    const y = height - ((value - min) / span) * (height - 8) - 4;
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(" ");
-  return `
-    <svg class="sparkline" viewBox="0 0 ${width} ${height}" aria-hidden="true">
-      <polyline points="${points}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+  el("trendSummary").innerHTML = `
+    <article class="answer-card primary">
+      <span>Главный вопрос</span>
+      <strong>${verdict}</strong>
+      <p>От ${labelWithYear(base)} до ${labelWithYear(last)}: мышцы ${signed(muscleDelta)} кг, жир ${signed(fatDelta)} кг, вес ${signed(weightDelta)} кг.</p>
+    </article>
+    <article class="answer-card">
+      <span>Что важнее веса?</span>
+      <strong>${signed(muscleDelta - fatDelta)} кг</strong>
+      <p>Разница “мышцы минус жир”. Чем выше, тем лучше направление рекомпозиции.</p>
+    </article>
+    <article class="answer-card">
+      <span>Процент жира</span>
+      <strong>${fmt(value(last, "fatPct"))}%</strong>
+      <p>${signed(fatPctDelta)} п.п. к базе. Лучший замер: ${fmt(Math.min(...scans.map((scan) => scan.fatPct)))}%.</p>
+    </article>
   `;
 }
 
+function renderKpis() {
+  const base = scans[state.baseIndex];
+  const last = scans.at(-1);
+  const keys = ["muscle", "fatMass", "fatPct", "weight", "bmi"];
+  el("kpiGrid").innerHTML = keys.map((key) => {
+    const item = metric(key);
+    const current = value(last, key);
+    const delta = current - value(base, key);
+    return `
+      <article class="kpi-card compact-kpi">
+        <div class="kpi-label"><span class="metric-dot" style="background:${item.color}"></span>${valueLabel(key)}</div>
+        <div class="kpi-value">${fmt(current, item.precision)} <span class="kpi-unit">${item.unit}</span></div>
+        <div class="kpi-change ${statusClass(key, delta)}">${signed(delta, item.precision)} ${item.unit}</div>
+      </article>
+    `;
+  }).join("");
+}
+
 function renderChart() {
+  document.querySelectorAll("[data-focus]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.focus === state.focus);
+  });
+  const keys = questions[state.focus];
   const svg = el("trendChart");
-  const data = filteredScans();
-  const keys = state.chartMode === "absolute" ? [el("focusMetric").value] : [...state.selectedMetrics];
-  const selectedKeys = keys.length ? keys : ["weight"];
-  const width = svg.clientWidth || 900;
-  const height = svg.clientHeight || 390;
-  const margin = { top: 24, right: 28, bottom: 48, left: 48 };
+  const width = svg.clientWidth || 720;
+  const height = svg.clientHeight || 330;
+  const margin = { top: 24, right: 16, bottom: 42, left: 42 };
   const innerW = width - margin.left - margin.right;
   const innerH = height - margin.top - margin.bottom;
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.innerHTML = "";
-
-  const x = (index) => margin.left + (data.length === 1 ? innerW / 2 : (index / (data.length - 1)) * innerW);
-  const allValues = selectedKeys.flatMap((key) => data.map((scan) => scan[key]));
-  let absoluteMin = Math.min(...allValues);
-  let absoluteMax = Math.max(...allValues);
-  if (absoluteMin === absoluteMax) {
-    absoluteMin -= 1;
-    absoluteMax += 1;
-  }
-  const pad = (absoluteMax - absoluteMin) * 0.12;
-  absoluteMin -= pad;
-  absoluteMax += pad;
-
-  const yAbsolute = (value) => margin.top + (1 - (value - absoluteMin) / (absoluteMax - absoluteMin)) * innerH;
-  const yNormalized = (key, value) => {
-    const values = data.map((scan) => scan[key]);
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const span = max - min || 1;
-    return margin.top + (1 - (value - min) / span) * innerH;
-  };
 
   for (let i = 0; i <= 4; i += 1) {
     const y = margin.top + (i / 4) * innerH;
     svg.insertAdjacentHTML("beforeend", `<line class="grid-line" x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" />`);
   }
 
-  data.forEach((scan, index) => {
+  const x = (index) => margin.left + (index / (scans.length - 1)) * innerW;
+  const yNorm = (key, current) => {
+    const values = scans.map((scan) => value(scan, key));
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const span = max - min || 1;
+    return margin.top + (1 - (current - min) / span) * innerH;
+  };
+
+  scans.forEach((scan, index) => {
     const tx = x(index);
-    svg.insertAdjacentHTML("beforeend", `<text class="chart-label" x="${tx}" y="${height - 18}" text-anchor="middle">${scan.label.replace(" 2025", "").replace(" 2026", "")}</text>`);
-  });
-
-  if (state.chartMode === "absolute") {
-    for (let i = 0; i <= 4; i += 1) {
-      const value = absoluteMax - ((absoluteMax - absoluteMin) * i) / 4;
-      const y = margin.top + (i / 4) * innerH + 4;
-      svg.insertAdjacentHTML("beforeend", `<text class="axis-label" x="8" y="${y}">${fmt(value, byKey(selectedKeys[0]).precision)}</text>`);
+    const outlier = Math.abs(scan.height - 176) >= 2;
+    if (outlier) {
+      svg.insertAdjacentHTML("beforeend", `<line x1="${tx}" y1="${margin.top}" x2="${tx}" y2="${margin.top + innerH}" stroke="#d79200" stroke-width="1.5" stroke-dasharray="5 5" />`);
+      svg.insertAdjacentHTML("beforeend", `<text class="chart-warning" x="${tx}" y="${margin.top - 8}" text-anchor="middle">${scan.height} см</text>`);
     }
-  } else {
-    svg.insertAdjacentHTML("beforeend", `<text class="axis-label" x="8" y="${margin.top + 4}">max</text>`);
-    svg.insertAdjacentHTML("beforeend", `<text class="axis-label" x="8" y="${margin.top + innerH + 4}">min</text>`);
-  }
+    svg.insertAdjacentHTML("beforeend", `<text class="chart-label" x="${tx}" y="${height - 16}" text-anchor="middle">${scan.label}</text>`);
+  });
 
-  selectedKeys.forEach((key) => {
-    const metric = byKey(key);
-    const points = data.map((scan, index) => {
-      const y = state.chartMode === "absolute" ? yAbsolute(scan[key]) : yNormalized(key, scan[key]);
-      return `${x(index)},${y}`;
-    }).join(" ");
-    svg.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${metric.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`);
-    data.forEach((scan, index) => {
-      const cy = state.chartMode === "absolute" ? yAbsolute(scan[key]) : yNormalized(key, scan[key]);
-      svg.insertAdjacentHTML("beforeend", `<circle cx="${x(index)}" cy="${cy}" r="4" fill="${metric.color}" stroke="#fff" stroke-width="2" />`);
+  keys.forEach((key) => {
+    const item = metric(key);
+    const points = scans.map((scan, index) => `${x(index)},${yNorm(key, value(scan, key))}`).join(" ");
+    svg.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${item.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`);
+    scans.forEach((scan, index) => {
+      svg.insertAdjacentHTML("beforeend", `<circle cx="${x(index)}" cy="${yNorm(key, value(scan, key))}" r="4" fill="${item.color}" stroke="#fff" stroke-width="2" />`);
     });
   });
 
-  const overlay = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  overlay.setAttribute("x", margin.left);
-  overlay.setAttribute("y", margin.top);
-  overlay.setAttribute("width", innerW);
-  overlay.setAttribute("height", innerH);
-  overlay.setAttribute("fill", "transparent");
-  overlay.addEventListener("mousemove", (event) => showTooltip(event, data, selectedKeys, margin, innerW, innerH));
-  overlay.addEventListener("mouseleave", () => {
-    el("chartTooltip").hidden = true;
-    svg.querySelectorAll(".hover-guide").forEach((node) => node.remove());
-  });
-  svg.appendChild(overlay);
-}
-
-function showTooltip(event, data, keys, margin, innerW, innerH) {
-  const svg = el("trendChart");
-  const rect = svg.getBoundingClientRect();
-  const mouseX = event.clientX - rect.left;
-  const ratio = Math.max(0, Math.min(1, (mouseX - margin.left) / innerW));
-  const index = Math.round(ratio * (data.length - 1));
-  const scan = data[index];
-  const x = margin.left + (index / (data.length - 1)) * innerW;
-  svg.querySelectorAll(".hover-guide").forEach((node) => node.remove());
-  svg.insertAdjacentHTML("beforeend", `<line class="hover-guide" x1="${x}" y1="${margin.top}" x2="${x}" y2="${margin.top + innerH}" stroke="#8a99a5" stroke-dasharray="4 4" />`);
-
-  const rows = keys.map((key) => {
-    const metric = byKey(key);
-    return `<div class="tooltip-row"><span style="color:${metric.color}">${metric.label}</span><b>${fmt(scan[key], metric.precision)} ${metric.unit}</b></div>`;
-  }).join("");
-  const tooltip = el("chartTooltip");
-  tooltip.innerHTML = `<strong>${scan.label}</strong>${rows}`;
-  tooltip.hidden = false;
-  const left = Math.min(rect.width - 210, Math.max(12, x + 18));
-  tooltip.style.left = `${left}px`;
-  tooltip.style.top = "58px";
-}
-
-function renderInsights() {
-  const first = scans[state.baselineIndex];
-  const latest = scans.at(-1);
-  const items = [
-    {
-      icon: "+",
-      title: "Мышцы выросли",
-      text: `Скелетная мышечная масса: ${fmt(first.skeletalMuscleMass)} -> ${fmt(latest.skeletalMuscleMass)} кг (${signed(latest.skeletalMuscleMass - first.skeletalMuscleMass)} кг).`,
-    },
-    {
-      icon: "-",
-      title: "Жир снизился относительно старта",
-      text: `Жировая масса: ${fmt(first.bodyFatMass)} -> ${fmt(latest.bodyFatMass)} кг; процент жира: ${fmt(first.bodyFatPct)}% -> ${fmt(latest.bodyFatPct)}%.`,
-    },
-    {
-      icon: "!",
-      title: "Откат после лучшего замера",
-      text: `Лучший процент жира был ${fmt(Math.min(...scans.map((s) => s.bodyFatPct)))}% 26 ноя 2025, последний скан показывает ${fmt(latest.bodyFatPct)}%.`,
-    },
-    {
-      icon: "↑",
-      title: "Оценка InBody выше старта",
-      text: `Оценка: ${first.score} -> ${latest.score} баллов. Пик был ${Math.max(...scans.map((s) => s.score))} баллов.`,
-    },
-  ];
-  el("insights").innerHTML = items.map((item) => `
-    <div class="insight">
-      <div class="insight-icon">${item.icon}</div>
-      <div><strong>${item.title}</strong><span>${item.text}</span></div>
-    </div>
-  `).join("");
-}
-
-function renderComposition() {
-  const scan = scans[state.selectedIndex];
-  el("selectedScanCaption").textContent = `${scan.label}, вес ${fmt(scan.weight)} кг, источник: ${scan.source}`;
-  renderDonut(scan);
-  renderBars(scan);
-  renderControl(scan);
-}
-
-function renderDonut(scan) {
-  const svg = el("compositionDonut");
-  const size = 220;
-  const radius = 86;
-  const stroke = 28;
-  const center = size / 2;
-  const total = scan.weight;
-  const circumference = 2 * Math.PI * radius;
-  let offset = 0;
-  svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
-  svg.innerHTML = `<circle cx="${center}" cy="${center}" r="${radius}" fill="none" stroke="#edf2f5" stroke-width="${stroke}" />`;
-  composition.forEach((part) => {
-    const value = scan[part.key];
-    const dash = (value / total) * circumference;
-    svg.insertAdjacentHTML("beforeend", `
-      <circle cx="${center}" cy="${center}" r="${radius}" fill="none" stroke="${part.color}" stroke-width="${stroke}"
-        stroke-dasharray="${dash} ${circumference - dash}" stroke-dashoffset="${-offset}"
-        transform="rotate(-90 ${center} ${center})" />
-    `);
-    offset += dash;
-  });
-  svg.insertAdjacentHTML("beforeend", `
-    <text x="${center}" y="${center - 4}" text-anchor="middle" font-size="28" font-weight="780" fill="#14212b">${fmt(scan.weight)}</text>
-    <text x="${center}" y="${center + 20}" text-anchor="middle" font-size="12" fill="#657480">кг общий вес</text>
-  `);
-}
-
-function renderBars(scan) {
-  el("compositionBars").innerHTML = composition.map((part) => {
-    const value = scan[part.key];
-    const share = (value / scan.weight) * 100;
-    return `
-      <div class="bar-row">
-        <div class="bar-meta">
-          <span class="bar-label">${part.label}</span>
-          <span>${fmt(value, part.key === "minerals" ? 2 : 1)} кг / ${fmt(share, 1)}%</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" style="width:${share}%; background:${part.color}"></div></div>
-      </div>
-    `;
+  el("chartLegend").innerHTML = keys.map((key) => {
+    const item = metric(key);
+    return `<span><i style="background:${item.color}"></i>${valueLabel(key)}</span>`;
   }).join("");
 }
 
-function renderControl(scan) {
-  const items = [
-    ["Идеальный вес", scan.idealWeight, "кг"],
-    ["Контроль веса", scan.weightControl, "кг"],
-    ["Контроль жира", scan.fatControl, "кг"],
-    ["Контроль мышц", scan.muscleControl, "кг"],
-    ["Талия/бедра", scan.whr, ""],
-    ["Базовый обмен", scan.bmr, "ккал"],
-  ];
-  el("controlPanel").innerHTML = items.map(([label, value, unit]) => `
-    <div class="control-item">
-      <span>${label}</span>
-      <strong>${value > 0 && label.includes("Контроль") ? "+" : ""}${fmt(value, label === "Талия/бедра" ? 2 : 1)} ${unit}</strong>
-    </div>
-  `).join("");
-}
-
-function renderHistory() {
-  el("scanHistory").innerHTML = scans.map((scan, index) => `
-    <button class="scan-card ${index === state.selectedIndex ? "active" : ""}" type="button" data-index="${index}">
-      <strong>${scan.label}</strong>
-      <span>${fmt(scan.weight)} кг</span>
-      <small>${fmt(scan.skeletalMuscleMass)} кг мышц, ${fmt(scan.bodyFatPct)}% жира</small>
-    </button>
-  `).join("");
-  el("scanHistory").querySelectorAll("button").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.selectedIndex = Number(button.dataset.index);
-      renderComposition();
-      renderHistory();
-    });
-  });
-}
-
-function renderTable() {
-  const base = scans[state.baselineIndex];
-  el("detailHead").innerHTML = `
-    <tr>
-      <th>Метрика</th>
-      ${scans.map((scan) => `<th>${scan.label}</th>`).join("")}
-      <th>Изм. к базе</th>
-    </tr>
-  `;
-  el("detailBody").innerHTML = tableMetrics.map((metric) => {
-    const last = scans.at(-1)[metric.key];
-    const delta = last - base[metric.key];
-    const cls = delta > 0.049 ? "delta-pos" : delta < -0.049 ? "delta-neg" : "delta-neutral";
+function renderNoise() {
+  const baseHeight = normalizedHeight() || 176;
+  const rows = scans.map((scan) => {
+    const delta = scan.height - baseHeight;
+    const bmiReported = scan.weight / ((scan.height / 100) ** 2);
+    const bmiNorm = scan.weight / ((baseHeight / 100) ** 2);
+    const cls = Math.abs(delta) >= 2 ? "bad" : Math.abs(delta) >= 1 ? "neutral" : "good";
     return `
       <tr>
-        <td>${metric.label}, ${metric.unit || "индекс"}</td>
-        ${scans.map((scan) => `<td>${fmt(scan[metric.key], metric.precision)}</td>`).join("")}
-        <td class="${cls}">${signed(delta, metric.precision)}</td>
+        <td>${scan.label}</td>
+        <td>${scan.height} см</td>
+        <td class="delta-${cls}">${delta > 0 ? "+" : ""}${delta} см</td>
+        <td>${fmt(bmiReported)}</td>
+        <td>${fmt(bmiNorm)}</td>
       </tr>
     `;
   }).join("");
+
+  el("noiseTable").innerHTML = `
+    <table>
+      <thead><tr><th>Дата</th><th>Рост</th><th>Откл.</th><th>BMI отчет</th><th>BMI норм.</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
 }
 
-function renderAll() {
+function renderDataTable() {
+  const keys = ["weight", "muscle", "fatMass", "fatPct", "bmi", "visceral", "score"];
+  el("detailHead").innerHTML = `
+    <tr>
+      <th>Дата</th>
+      <th>Рост</th>
+      ${keys.map((key) => `<th>${valueLabel(key)}</th>`).join("")}
+    </tr>
+  `;
+  el("detailBody").innerHTML = scans.map((scan) => `
+    <tr>
+      <td>${scan.label}</td>
+      <td>${scan.height} см</td>
+      ${keys.map((key) => {
+        const item = metric(key);
+        return `<td>${fmt(value(scan, key), item.precision)} ${item.unit}</td>`;
+      }).join("")}
+    </tr>
+  `).join("");
+}
+
+function render() {
+  renderSummary();
   renderKpis();
   renderChart();
-  renderInsights();
-  renderComposition();
-  renderHistory();
-  renderTable();
+  renderNoise();
+  renderDataTable();
 }
 
 renderControls();
-renderAll();
+render();
